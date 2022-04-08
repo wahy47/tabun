@@ -11,7 +11,7 @@ class LaporanController extends Controller
 {
     public function __construct()
     {
-
+        $this->middleware('auth');
     }
 
     public function read(){
@@ -35,7 +35,7 @@ class LaporanController extends Controller
         if(!$sql){
             return response()->json(['message'=>'Sinder Belum Memiliki Kebun']);
         }
-        
+
         return response()->json($sql);
     }
 
