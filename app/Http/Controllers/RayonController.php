@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class RayonController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function create(Request $request)
     {
         $this->validate($request,[

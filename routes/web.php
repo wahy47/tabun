@@ -19,5 +19,24 @@ $router->get("/rayon/{id}","RayonController@detail");
 $router->put("/rayon/{id}","RayonController@update");
 $router->delete("/rayon/{id}","RayonController@delete");
 
-$router->post("/register","UserController@register");
+$router->post("/sinder","SinderController@register");
+$router->get("/sinder","SinderController@read");
+$router->get("/sinder/{id}","SinderController@detail");
+$router->put("/sinder/{id}","SinderController@update");
+$router->delete("/sinder/{id}","SinderController@delete");
+
+$router->post("/kebun","KebunController@create");
+$router->get("/kebun","KebunController@read");
+$router->get("/kebun/{id}","KebunController@detail");
+$router->put("/kebun/{id}","KebunController@update");
+$router->delete("/kebun/{id}","KebunController@delete");
+
 $router->post("/login","UserController@login");
+$router->get("/logout/{id}","UserController@logout");
+
+$router->put("/taksasi/{id}","TaksasiController@update");
+$router->get("/taksasi","TaksasiController@read");
+$router->get("/taksasi/{id}","TaksasiController@detail");
+
+$router->get("/laporan","LaporanController@read");
+$router->get("/laporan/{id}","LaporanController@detail");
