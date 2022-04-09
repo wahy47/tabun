@@ -33,6 +33,7 @@ $router->delete("/kebun/{id}","KebunController@delete");
 
 $router->post("/login","UserController@login");
 $router->get("/logout/{id}","UserController@logout");
+$router->post("/loginAllUser","UserController@loginAllUser");
 
 $router->put("/taksasi/{id}","TaksasiController@update");
 $router->get("/taksasi","TaksasiController@read");

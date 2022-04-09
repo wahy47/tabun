@@ -36,14 +36,52 @@ class UserController extends Controller
         $admin->update([
             'token'=>$generateToken]);
         
-        return response()->json($admin);
+        return response()->json([
+          'status' => 'success',
+          'data' => $admin
+        ]);
       }
         $generateToken = bin2hex(random_bytes(40));
         $user->update([
             'token'=>$generateToken]);
         
-        return response()->json($user);    
+        return response()->json([
+          'status' => 'success',
+          'data' => $user
+        ]);    
   }
+
+  public function loginAllUser(Request $request){
+    $this->validate($request,[
+      'username' => 'required',
+      'password' => 'required'
+    ]);
+
+    $username = $request['username'];
+    $password = $request['password'];
+    $x = "";
+    $user = User::where('username',$username)
+              ->where('password',$password)->first();
+
+    if(!$user){
+      return response()->json([
+        'status' => 'fail',
+        'message' => 'Failed to Login'
+      ]);
+    }
+
+    $generateToken = bin2hex(random_bytes(40));
+    $user->update([
+      'token'=>$generateToken
+    ]);
+
+    return response()->json([
+        'status' => 'success',
+        'data' => $user
+      ]
+    );
+  }
+
   public function logout(Request $request,$id){
     $x="";
     $token = $request->header('token');
