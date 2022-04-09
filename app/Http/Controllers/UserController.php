@@ -41,14 +41,15 @@ class UserController extends Controller
           'data' => $admin
         ]);
       }
-        $generateToken = bin2hex(random_bytes(40));
-        $user->update([
+      $generateToken = bin2hex(random_bytes(40));
+      $user->update([
             'token'=>$generateToken]);
-        
+       
         return response()->json([
           'status' => 'success',
           'data' => $user
         ]);    
+
   }
 
   public function loginAllUser(Request $request){
