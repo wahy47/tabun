@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('username')->unique();
             $table->string('password');
+            $table->enum('role',['admin','sinder']);
             $table->integer('telepon')->nullable();
             $table->string('alamat')->nullable();
             $table->string('wilayah');

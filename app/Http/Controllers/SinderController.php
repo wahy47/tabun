@@ -17,11 +17,12 @@ class SinderController extends Controller
     }
     public function register(Request $request){
         $this->validate($request,[
-            'nama' => 'required|string',
+            'nama' => 'string',
             'username' => 'required|unique:sinder|string',
+            'role'=> 'required|in:admin,sinder',
             'password' => 'required|min:8',
-            'wilayah' => 'required|string',
-            'lokasi' => 'required|string'
+            'wilayah' => 'string',
+            'lokasi' => 'string'
         ]);
         $data = $request->all();
         $sinder = User::create($data);
@@ -30,9 +31,12 @@ class SinderController extends Controller
     }
 
     public function read(){
-        $data = User::all();
+        $data = User::where('role','sinder')->get();
 
-        return response()->json($data);
+        return response()->json([
+            'status' => 'success',
+            'data'=> $data
+        ]);
     }
 
     public function detail($id){
