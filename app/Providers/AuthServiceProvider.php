@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,7 +35,12 @@ class AuthServiceProvider extends ServiceProvider
             $token = $request->header('token');
 
             if ($token) {
-                return User::where('token', $token)->first();
+                $user = User::where('token', $token)->first();
+                if(!$user){
+                    return Admin::where('token',$token)->first();
+                }
+
+                return $user;
             }
         });
     }

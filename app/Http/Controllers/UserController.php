@@ -38,11 +38,11 @@ class UserController extends Controller
         
         return response()->json($admin);
       }
-        $generateToken = bin2hex(random_bytes(40));
-        $user->update([
+      $generateToken = bin2hex(random_bytes(40));
+      $user->update([
             'token'=>$generateToken]);
         
-        return response()->json($user);    
+      return response()->json($user);    
   }
   public function logout(Request $request,$id){
     $x="";
