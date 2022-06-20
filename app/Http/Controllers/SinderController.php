@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Kebun;
-use App\Models\Taksasi;
+use App\Models\kebun;
+use App\Models\taksasi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\Admin;
 use Illuminate\Support\Js;
 
 class SinderController extends Controller
@@ -27,7 +27,9 @@ class SinderController extends Controller
         $data = $request->all();
         $sinder = User::create($data);
   
-        return response()->json(['message'=>'Sinder Berhasil Ditambahkan']);
+        return response()->json([
+            'status'=>'success',
+            'message'=>'Sinder Berhasil Ditambahkan']);
     }
 
     public function read(){
@@ -35,14 +37,17 @@ class SinderController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data'=> $data
-        ]);
+            'data'=>[
+                'Sinder'=> $data]]);
     }
 
     public function detail($id){
         $data = User::find($id);
 
-        return response()->json($data);
+        return response()->json([
+            'status' => 'success',
+            'data'=>[
+                'Sinder'=> $data]]);
     }
 
     public function update(Request $request, $id){
@@ -57,32 +62,39 @@ class SinderController extends Controller
         $sinder->save();
 
         if($kebun){
-        $kebun->fill($z);
-        $kebun->save();
+        $kebun_sinder = DB::update("UPDATE kebun SET nama_sinder='$x' WHERE nama_sinder='$x'");
         }
         if($taksasi){
-        $taksasi->fill($z);
-        $taksasi->save();
+        $taksasi_sinder = DB::update("UPDATE taksasi SET nama_sinder='$x' WHERE nama_sinder='$x'");
         }
 
-        return response()->json($sinder);
+        return response()->json([
+            'status'=>'success',
+            'data'=>[
+                'Sinder'=>$sinder]]);
     }
 
     public function delete($id){
         $sinder = User::find($id);
         $x = $sinder['nama'];
         $kebun = Kebun::where('nama_sinder',$x)->first();
-        $taksasi = Taksasi::where('nama_sinder',$x)->first();
 
         if(!$sinder){
-            return response()->json(['message'=>'Sinder tidak ditemukan']);
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Sinder tidak ditemukan']);
         } else {
             $sinder->delete();
-            $kebun->delete();
-            $taksasi->delete();
-            return response()->json(['message'=>'Sinder berhasil dihapus']);
+            if($kebun){
+            $kebun = DB::delete("DELETE FROM kebun WHERE nama_sinder='$x';");
+            $taksasi = DB::delete("DELETE FROM taksasi WHERE nama_sinder='$x';");
+            return response()->json([
+                'status'=>'success',
+                'message'=>'Sinder berhasil dihapus']);
+            }
+            return response()->json([
+                'status'=>'success',
+                'message'=>'Sinder berhasil dihapus']);
         }
     }
-
-    
 }

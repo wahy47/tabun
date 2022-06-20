@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
@@ -11,48 +10,8 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
 
+
   public function login(Request $request){
-      $this->validate($request,[
-        'username' => 'required',
-        'password' => 'required'
-      ]);
-
-      $username = $request['username'];
-      $password = $request['password'];
-      $x = "";
-      $user = User::where('username',$username)
-                ->where('password',$password)->first();
-
-      if(!$user){
-        $admin = Admin::where('username',$username)
-                        ->where('password',$password)->first();
-        $x = "admin";
-        if(!$admin){
-          return response()->json(['message'=>'username atau password salah']);
-        }
-      }
-      if ($x==="admin"){
-        $generateToken = bin2hex(random_bytes(40));
-        $admin->update([
-            'token'=>$generateToken]);
-        
-        return response()->json([
-          'status' => 'success',
-          'data' => $admin
-        ]);
-      }
-      $generateToken = bin2hex(random_bytes(40));
-      $user->update([
-            'token'=>$generateToken]);
-       
-        return response()->json([
-          'status' => 'success',
-          'data' => $user
-        ]);    
-
-  }
-
-  public function loginAllUser(Request $request){
     $this->validate($request,[
       'username' => 'required',
       'password' => 'required'
@@ -66,7 +25,7 @@ class UserController extends Controller
 
     if(!$user){
       return response()->json([
-        'status' => 'fail',
+        'status' => 'failed',
         'message' => 'Failed to Login'
       ]);
     }
@@ -78,8 +37,10 @@ class UserController extends Controller
 
     return response()->json([
         'status' => 'success',
-        'data' => $user
-      ]
+        'token' => $generateToken,
+        'data' =>[
+            'User'=>$user
+      ]]
     );
   }
 
@@ -94,15 +55,10 @@ class UserController extends Controller
         'token' => $x
       ]);
   
-      return response()->json($user);
+      return response()->json([
+          'status'=>'success',
+          'message'=>'Logout Success'
+          ]);
     }
-    $admin = Admin::where('token',$token)
-                    ->where('id',$id)->first();
-    if($admin){
-      $admin->update([
-        'token'=>$x
-      ]);
-    }
-    return response()->json($admin);
   }
 }

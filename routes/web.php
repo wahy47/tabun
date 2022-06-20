@@ -19,6 +19,12 @@ $router->get("/rayon/{id}","RayonController@detail");
 $router->put("/rayon/{id}","RayonController@update");
 $router->delete("/rayon/{id}","RayonController@delete");
 
+$router->post("/wilayah","WilayahController@create");
+$router->get("/wilayah","WilayahController@read");
+$router->get("/wilayah/{id}","WilayahController@detail");
+$router->put("/wilayah/{id}","WilayahController@update");
+$router->delete("/wilayah/{id}","WilayahController@delete");
+
 $router->post("/sinder","SinderController@register");
 $router->get("/sinder","SinderController@read");
 $router->get("/sinder/{id}","SinderController@detail");
@@ -41,3 +47,10 @@ $router->get("/taksasi/{id}","TaksasiController@detail");
 
 $router->get("/laporan","LaporanController@read");
 $router->get("/laporan/{id}","LaporanController@detail");
+
+$router->get("/print/{id}","LaporanController@excel");
+
+$router->get('/excel', function ()  {
+    return view('excel');
+});
+

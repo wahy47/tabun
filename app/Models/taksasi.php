@@ -15,7 +15,7 @@ class Taksasi extends Model
     protected $table = 'taksasi';
   
     protected $fillable = [
-        'nama_sinder','nama_kebun','mandor','faktor_leng','batang_per_meter','batang_per_row','batang_per_ha',
+        'nama_sinder','nama_kebun','id_kebun','mandor','faktor_leng','batang_per_meter','batang_per_row','batang_per_ha',
         'tinggi_ini','tinggi_tebang','diameter_batang','batang_per_meter','hit','pandangan','per_hit','kui',
     ];
 

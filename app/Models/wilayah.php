@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Rayon extends Model
+class Wilayah extends Model
 {   
     public $timestamps = false;
-    protected $table = 'rayon';
+    protected $table = 'wilayah';
 
     protected $fillable = [
-        'nama_rayon','nama_lokasi'
+        'nama_wilayah','nama_rayon','nama_lokasi'
     ];
 }

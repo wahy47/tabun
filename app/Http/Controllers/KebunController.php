@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kebun;
-use App\Models\Taksasi;
+use App\Models\kebun;
+use App\Models\taksasi;
 use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
 
@@ -13,6 +13,7 @@ class KebunController extends Controller
     {
         $this->middleware('auth');
     }
+    
     public function create(Request $request){
 
         $this->validate($request,[
@@ -29,32 +30,49 @@ class KebunController extends Controller
         $check = Kebun::where('nama_kebun',$request['nama_kebun'])
                         ->where('nama_sinder',$request['nama_sinder'])->first();
         if($check){
-            return response()->json(['message'=>'Nama kebun telah ada']);
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Nama kebun telah ada']);
         }
+        
+        $kebun = Kebun::create($data);
+        $x = $kebun['id'];
+
         $taks = array(
             'nama_sinder'=>$request['nama_sinder'],
-            'nama_kebun'=>$request['nama_kebun']
+            'nama_kebun'=>$request['nama_kebun'],
+            'id_kebun'=>$x
         );
-        $kebun = Kebun::create($data);
+
         $taksasi = Taksasi::create($taks);
 
         if(!$kebun){
-            return response()->json(['message'=>'Gagal Menambahkan Data']);
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Gagal Menambahkan Data']);
         }
 
-        return response()->json(['message'=>'Berhasil Menambahkan Data']);
+        return response()->json([
+            'status'=>'success',
+            'message'=>'Berhasil Menambahkan Data']);
     }
 
     public function read(){
         $kebun = Kebun::all();
 
-        return response()->json($kebun);
+        return response()->json([
+            'status'=>'success',
+            'data'=>[
+                'Kebun'=>$kebun]]);
     }
 
     public function detail($id){
         $kebun = Kebun::find($id);
 
-        return response()->json($kebun);
+        return response()->json([
+            'status'=>'success',
+            'data'=>[
+                'Kebun'=>$kebun]]);
     }
 
     public function update(Request $request,$id){
@@ -69,19 +87,25 @@ class KebunController extends Controller
         $kebun->save();
         $taksasi->fill($taks);
         $taksasi->save();
-        return  response()->json(['message'=>'Berhasil Mengubah Data']);
+        return  response()->json([
+            'status'=>'success',
+            'message'=>'Berhasil Mengubah Data']);
     }
 
     public function delete($id){
         $kebun = Kebun::find($id);
-        $taksasi = Taksasi::find($id);
+        $taksasi = Taksasi::where('id_kebun',$id)->first();
 
         if(!$kebun){
-            return response()->json(['message' => 'Data kebun tidak ditemukan']);
+            return response()->json([
+                'status'=>'failed',
+                'message' => 'Data kebun tidak ditemukan']);
         }else{
             $kebun->delete();
             $taksasi->delete();
-            return response()->json(['message'=>'Data kebun berhasil di hapus']);
+            return response()->json([
+                'status'=>'success',
+                'message'=>'Data kebun berhasil di hapus']);
         }
     }
 }

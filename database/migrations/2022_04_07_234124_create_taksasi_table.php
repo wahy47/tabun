@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_sinder');
             $table->string('nama_kebun');
+            $table->string('id_kebun');
             $table->string('mandor');
             $table->string('faktor_leng')->nullable();
             $table->string('batang_per_meter')->nullable();
