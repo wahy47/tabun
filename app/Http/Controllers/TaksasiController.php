@@ -46,7 +46,7 @@ class TaksasiController extends Controller
 
     public function update(Request $request,$id){
         $taksasi = Taksasi::find($id);
-        $data = $request->all();                
+        $data = $request->all();               
     
         $taksasi->fill($data);
         $taksasi->save();

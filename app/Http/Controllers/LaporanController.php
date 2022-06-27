@@ -32,7 +32,7 @@ class LaporanController extends Controller
         $wilayah_user = $user['wilayah'];
         $lokasi_user = $user['lokasi'];
 
-        $sql = DB::select("SELECT sinder.nama, sinder.wilayah, sinder.lokasi, taksasi.mandor, kebun.nama_kebun, kebun.luas, kebun.petak, kebun. jenis_tebu, kebun.kategori,taksasi.faktor_leng, taksasi.batang_per_meter, taksasi.batang_per_row, taksasi.batang_per_ha, taksasi.tinggi_ini, taksasi.tinggi_tebang, taksasi.diameter_batang, taksasi.berat_per_meter, taksasi.hit, taksasi.pandangan, taksasi.per_hit, taksasi.kui
+        $sql = DB::select("SELECT sinder.nama, sinder.wilayah, sinder.lokasi, taksasi.mandor, kebun.nama_kebun, kebun.luas, kebun.petak, kebun.jenis_tebu, kebun.kategori,taksasi.faktor_leng, taksasi.batang_per_meter, taksasi.batang_per_row, taksasi.batang_per_ha, taksasi.tinggi_ini, taksasi.tinggi_tebang, taksasi.diameter_batang, taksasi.berat_per_meter, taksasi.hit, taksasi.pandangan, taksasi.per_hit, taksasi.kui
         FROM kebun
         left JOIN sinder ON kebun.nama_sinder=sinder.nama
         LEFT JOIN taksasi ON kebun.id=taksasi.id
